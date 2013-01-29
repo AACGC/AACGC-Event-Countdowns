@@ -1,5 +1,0 @@
-<?PHP 
-
-header("Location: ../"); 
-
-exit ?> 
