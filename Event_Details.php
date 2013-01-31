@@ -34,50 +34,22 @@ $row = $sql->db_Fetch();
 
 	$nexteventid = $row['ecds_id'];
 	$nexteventtimestamp = $row['ecds_date'];
-	$nextdateyear = "Y";
-	$nextdateyearshow = date($nextdateyear, $nexteventtimestamp);
-	$nextdatedayhour = "j,H";
-	$nextdatedayhourshow = date($nextdatedayhour, $nexteventtimestamp);
-	$nextdatemonth = "n";
-	$nextdatemonthshow = date($nextdatemonth, $nexteventtimestamp);
-	$nextdatemonthfixed = $nextdatemonthshow - 1;
-	$nextshowcounter = "".$nextdateyearshow.",".$nextdatemonthfixed.",".$nextdatedayhourshow."";
-
-$text .= '
-<script type="text/javascript">
-function GetCount$nexteventid(){
 	
-	dateEnd = new Date('.$nextshowcounter.');
-	dateEndNow = new Date();					
-	amount = dateEnd.getTime() - dateEndNow.getTime();		
-	delete dateEndNow;
+	$nextdateyear = "Y";
+	$nextdatemonth = "n";
+	$nextdateday = "j";
+	$nextdatehour = "H";
+	
+	$nextdateyearshow = date($nextdateyear, $nexteventtimestamp);
+	$nextdatemonthshow = date($nextdatemonth, $nexteventtimestamp);
+	$nextdatedayshow = date($nextdateday, $nexteventtimestamp);
+	$nextdatehourshow = date($nextdatehour, $nexteventtimestamp);
+	$nextdatemonthfixed = $nextdatemonthshow - 1;
+	
+	$nextshowcounter = "".$nextdateyearshow.",".$nextdatemonthfixed.",".$nextdatedayshow.",".$nextdatehourshow."";
 
-		days=0;hours=0;mins=0;secs=0;out="";
-
-		amount = Math.floor(amount/1000);//kill the "milliseconds" so just secs
-
-		days=Math.floor(amount/86400);//days
-		amount=amount%86400;
-
-		hours=Math.floor(amount/3600);//hours
-		amount=amount%3600;
-
-		mins=Math.floor(amount/60);//minutes
-		amount=amount%60;
-
-		secs=Math.floor(amount);//seconds
-
-		if(days != 0){out += days +" day"+((days!=1)?"s":"")+", ";}
-		if(days != 0 || hours != 0){out += hours +" hour"+((hours!=1)?"s":"")+", ";}
-		if(days != 0 || hours != 0 || mins != 0){out += mins +" minute"+((mins!=1)?"s":"")+", ";}
-		out += secs +" seconds";
-		document.getElementById("currcountbox'.$nexteventid.'").innerHTML=out;
-		
-		setTimeout("GetCount$nexteventid()", 1000);
-}
-window.onload=GetCount$nexteventid;
-</script>		
-';
+require_once("".e_PLUGIN."aacgc_eventcountdowns/counter.php");
+$text .= $counterscript;
 
 //----------------# show event and countdown #-----------------+
 
@@ -103,7 +75,7 @@ $text .= "".$backlink." ".$adminedit."
 	</tr>	
 	<tr>
 		<td style='text-align:center;' class='".$themeb."'>
-			<div id='currcountbox".$nexteventid."' style='width:100%; text-align:center; color:".$color."; font-size:".$pref['ecds_countersize']."px' align='center'></div>".$ago."
+			<div id='currcountbox".$nexteventid."' style='width:100%; text-align:center; color:".$color."; font-size:".$pref['ecds_countersize']."px' align='center'></div>
 		</td>
 	<tr>
 		<td style='' class=''>".$tp -> toHTML($row['ecds_detail'], TRUE)."</td>

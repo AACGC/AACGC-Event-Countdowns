@@ -12,7 +12,8 @@ include_lan(e_PLUGIN."aacgc_eventcountdowns/languages/".e_LANGUAGE.".php");
 $ecds_title .= $pref['ecds_menutitle'];
 	
 //----------------# gather events #---------------+		
-$now = time();
+$offset = $pref['ecds_dateoffset'];
+$now = time() + ($offset * 60);
 
 $ecds_text .= "<table style='width:100%' class=''>";
 
@@ -21,53 +22,29 @@ $row = $sql->db_Fetch();
 	
 	$nexteventid = $row['ecds_id'];
 	$nexteventtimestamp = $row['ecds_date'];
+//	$nexteventremain = $row['ecds_date'] - $now;
+	
 	$nextdateyear = "Y";
-	$nextdateyearshow = date($nextdateyear, $nexteventtimestamp);
-	$nextdatedayhour = "j,H";
-	$nextdatedayhourshow = date($nextdatedayhour, $nexteventtimestamp);
 	$nextdatemonth = "n";
+	$nextdateday = "j";
+	$nextdatehour = "H";
+	
+	$nextdateyearshow = date($nextdateyear, $nexteventtimestamp);
 	$nextdatemonthshow = date($nextdatemonth, $nexteventtimestamp);
+	$nextdatedayshow = date($nextdateday, $nexteventtimestamp);
+	$nextdatehourshow = date($nextdatehour, $nexteventtimestamp);
 	$nextdatemonthfixed = $nextdatemonthshow - 1;
-	$nextshowcounter = "".$nextdateyearshow.",".$nextdatemonthfixed.",".$nextdatedayhourshow."";
-
-
-$ecds_text .= '
-<script type="text/javascript">
-function GetCount$nexteventid(){
+	$nextshowcounter = "".$nextdateyearshow.",".$nextdatemonthfixed.",".$nextdatedayshow.",".$nextdatehourshow."";
 	
-	dateEnd = new Date('.$nextshowcounter.');
-	dateEndNow = new Date();					
-	amount = dateEnd.getTime() - dateEndNow.getTime();		
-	delete dateEndNow;
+//	$nextdateyearshow = date($nextdateyear, $nexteventremain);
+//	$nextdatemonthshow = date($nextdatemonth, $nexteventremain);
+//	$nextdatedayshow = date($nextdateday, $nexteventremain);
+//	$nextdatehourshow = date($nextdatehour, $nexteventremain);
+//	$nextdatemonthfixed = $nextdatemonthshow - 1;	
+//	$nextshowcounter = "".$nextdateyearshow.",".$nextdatemonthfixed.",".$nextdatedayshow.",".$nextdatehourshow."";
 	
-		days=0;hours=0;mins=0;secs=0;out="";
-
-		amount = Math.floor(amount/1000);//kill the "milliseconds" so just secs
-
-		days=Math.floor(amount/86400);//days
-		amount=amount%86400;
-
-		hours=Math.floor(amount/3600);//hours
-		amount=amount%3600;
-
-		mins=Math.floor(amount/60);//minutes
-		amount=amount%60;
-
-		secs=Math.floor(amount);//seconds
-
-		if(days != 0){out += days +" day"+((days!=1)?"s":"")+", ";}
-		if(days != 0 || hours != 0){out += hours +" hour"+((hours!=1)?"s":"")+", ";}
-		if(days != 0 || hours != 0 || mins != 0){out += mins +" minute"+((mins!=1)?"s":"")+", ";}
-		out += secs +" seconds";
-		document.getElementById("currcountbox'.$nexteventid.'").innerHTML=out;
-		setTimeout("GetCount$nexteventid()", 1000);
-	
-}
-
-window.onload=GetCount$nexteventid;
-
-</script>		
-';
+require_once("".e_PLUGIN."aacgc_eventcountdowns/counter.php");
+$ecds_text .= $counterscript;
 
 //----------------# show events and countdowns #-----------------+
 

@@ -50,56 +50,25 @@ $text .= "
 
 $sql->db_Select("aacgc_eventcountdowns", "*", "ecds_date > ".$now." order by ecds_date asc limit 0,1");
 $row = $sql->db_Fetch();
-	
+
 	$nexteventid = $row['ecds_id'];
 	$nexteventtimestamp = $row['ecds_date'];
+	
 	$nextdateyear = "Y";
-	$nextdateyearshow = date($nextdateyear, $nexteventtimestamp);
-	$nextdatedayhour = "j,H";
-	$nextdatedayhourshow = date($nextdatedayhour, $nexteventtimestamp);
 	$nextdatemonth = "n";
+	$nextdateday = "j";
+	$nextdatehour = "H";
+	
+	$nextdateyearshow = date($nextdateyear, $nexteventtimestamp);
 	$nextdatemonthshow = date($nextdatemonth, $nexteventtimestamp);
+	$nextdatedayshow = date($nextdateday, $nexteventtimestamp);
+	$nextdatehourshow = date($nextdatehour, $nexteventtimestamp);
 	$nextdatemonthfixed = $nextdatemonthshow - 1;
-	$nextshowcounter = "".$nextdateyearshow.",".$nextdatemonthfixed.",".$nextdatedayhourshow."";
-
-
-$text .= '
-<script type="text/javascript">
-function GetCount$nexteventid(){
 	
-	dateEnd = new Date('.$nextshowcounter.');
-	dateEndNow = new Date();					
-	amount = dateEnd.getTime() - dateEndNow.getTime();		
-	delete dateEndNow;
-	
-		days=0;hours=0;mins=0;secs=0;out="";
+	$nextshowcounter = "".$nextdateyearshow.",".$nextdatemonthfixed.",".$nextdatedayshow.",".$nextdatehourshow."";
 
-		amount = Math.floor(amount/1000);//kill the "milliseconds" so just secs
-
-		days=Math.floor(amount/86400);//days
-		amount=amount%86400;
-
-		hours=Math.floor(amount/3600);//hours
-		amount=amount%3600;
-
-		mins=Math.floor(amount/60);//minutes
-		amount=amount%60;
-
-		secs=Math.floor(amount);//seconds
-
-		if(days != 0){out += days +" day"+((days!=1)?"s":"")+", ";}
-		if(days != 0 || hours != 0){out += hours +" hour"+((hours!=1)?"s":"")+", ";}
-		if(days != 0 || hours != 0 || mins != 0){out += mins +" minute"+((mins!=1)?"s":"")+", ";}
-		out += secs +" seconds";
-		document.getElementById("currcountbox'.$nexteventid.'").innerHTML=out;
-		setTimeout("GetCount$nexteventid()", 1000);
-	
-}
-
-window.onload=GetCount$nexteventid;
-
-</script>		
-';
+require_once("".e_PLUGIN."aacgc_eventcountdowns/counter.php");
+$text .= $counterscript;
 
 //----------------# show events and countdowns #-----------------+
 
@@ -120,7 +89,7 @@ $text .= "
 		<td style='text-align:center;' class='".$themeb."' colspan='2'>
 			".date($pref['ecds_dateformat'], $row['ecds_date'])." ".$row['ecds_tzone']."
 			<br/>			
-			<div id='currcountbox".$nexteventid."' style='width:95%; text-align:center; color:".$color."; font-size:".$pref['ecds_countersize']."px' class='' align='center'></div>
+			<div id='currcountbox".$nexteventid."' style='width:100%; text-align:center; color:".$color."; font-size:".$pref['ecds_countersize']."px' align='center'></div>
 		</td>
 	</tr>";
 	
