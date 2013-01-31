@@ -31,7 +31,8 @@ $adminadd = "<a href='".e_PLUGIN."aacgc_eventcountdowns/admin_events.php'><img w
 }
 	
 //----------------# gather events #---------------+		
-$now = time();
+$offset = $pref['ecds_dateoffset'];
+$now = time() + ($offset * 60);
 
 $text .= "<table style='width:100%' class='".$themea."'>";
 
@@ -58,15 +59,16 @@ $row = $sql->db_Fetch();
 	$nextdatemonth = "n";
 	$nextdateday = "j";
 	$nextdatehour = "H";
-	
+	$nextdatemin = "i";
+
 	$nextdateyearshow = date($nextdateyear, $nexteventtimestamp);
 	$nextdatemonthshow = date($nextdatemonth, $nexteventtimestamp);
 	$nextdatedayshow = date($nextdateday, $nexteventtimestamp);
 	$nextdatehourshow = date($nextdatehour, $nexteventtimestamp);
+	$nextdateminshow = date($nextdatemin, $nexteventtimestamp);
 	$nextdatemonthfixed = $nextdatemonthshow - 1;
+	$nextshowcounter = "".$nextdateyearshow.",".$nextdatemonthfixed.",".$nextdatedayshow.",".$nextdatehourshow.",".$nextdateminshow."";
 	
-	$nextshowcounter = "".$nextdateyearshow.",".$nextdatemonthfixed.",".$nextdatedayshow.",".$nextdatehourshow."";
-
 require_once("".e_PLUGIN."aacgc_eventcountdowns/counter.php");
 $text .= $counterscript;
 

@@ -39,14 +39,15 @@ $row = $sql->db_Fetch();
 	$nextdatemonth = "n";
 	$nextdateday = "j";
 	$nextdatehour = "H";
-	
+	$nextdatemin = "i";
+
 	$nextdateyearshow = date($nextdateyear, $nexteventtimestamp);
 	$nextdatemonthshow = date($nextdatemonth, $nexteventtimestamp);
 	$nextdatedayshow = date($nextdateday, $nexteventtimestamp);
 	$nextdatehourshow = date($nextdatehour, $nexteventtimestamp);
+	$nextdateminshow = date($nextdatemin, $nexteventtimestamp);
 	$nextdatemonthfixed = $nextdatemonthshow - 1;
-	
-	$nextshowcounter = "".$nextdateyearshow.",".$nextdatemonthfixed.",".$nextdatedayshow.",".$nextdatehourshow."";
+	$nextshowcounter = "".$nextdateyearshow.",".$nextdatemonthfixed.",".$nextdatedayshow.",".$nextdatehourshow.",".$nextdateminshow."";
 
 require_once("".e_PLUGIN."aacgc_eventcountdowns/counter.php");
 $text .= $counterscript;

@@ -11,7 +11,7 @@
 
 
 $eplug_name = "AACGC Event Countdowns";
-$eplug_version = "1.3";
+$eplug_version = "1.4";
 $eplug_author = "M@CH!N3";
 $eplug_url = "http://www.aacgc.com";
 $eplug_email = "admin@aacgc.com";

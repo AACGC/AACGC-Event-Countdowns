@@ -22,26 +22,20 @@ $row = $sql->db_Fetch();
 	
 	$nexteventid = $row['ecds_id'];
 	$nexteventtimestamp = $row['ecds_date'];
-//	$nexteventremain = $row['ecds_date'] - $now;
 	
 	$nextdateyear = "Y";
 	$nextdatemonth = "n";
 	$nextdateday = "j";
 	$nextdatehour = "H";
-	
+	$nextdatemin = "i";
+
 	$nextdateyearshow = date($nextdateyear, $nexteventtimestamp);
 	$nextdatemonthshow = date($nextdatemonth, $nexteventtimestamp);
 	$nextdatedayshow = date($nextdateday, $nexteventtimestamp);
 	$nextdatehourshow = date($nextdatehour, $nexteventtimestamp);
+	$nextdateminshow = date($nextdatemin, $nexteventtimestamp);
 	$nextdatemonthfixed = $nextdatemonthshow - 1;
-	$nextshowcounter = "".$nextdateyearshow.",".$nextdatemonthfixed.",".$nextdatedayshow.",".$nextdatehourshow."";
-	
-//	$nextdateyearshow = date($nextdateyear, $nexteventremain);
-//	$nextdatemonthshow = date($nextdatemonth, $nexteventremain);
-//	$nextdatedayshow = date($nextdateday, $nexteventremain);
-//	$nextdatehourshow = date($nextdatehour, $nexteventremain);
-//	$nextdatemonthfixed = $nextdatemonthshow - 1;	
-//	$nextshowcounter = "".$nextdateyearshow.",".$nextdatemonthfixed.",".$nextdatedayshow.",".$nextdatehourshow."";
+	$nextshowcounter = "".$nextdateyearshow.",".$nextdatemonthfixed.",".$nextdatedayshow.",".$nextdatehourshow.",".$nextdateminshow."";
 	
 require_once("".e_PLUGIN."aacgc_eventcountdowns/counter.php");
 $ecds_text .= $counterscript;
